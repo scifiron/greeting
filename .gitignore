@@ -1,3 +1,5 @@
 .bundle
 vendor
 node_modules
+artifacts
+cache
