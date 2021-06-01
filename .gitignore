@@ -3,3 +3,5 @@ vendor
 node_modules
 artifacts
 cache
+.jekyll-cache
+_site
