@@ -9,5 +9,14 @@ div.container {
     grid-gap: 1em;
     justify-content: center;
     align-content: center;
+    justify-items: center;
     height: 100%;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.error {
+    color: red;
 }
