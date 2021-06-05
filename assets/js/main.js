@@ -33,24 +33,28 @@ async function changeGreeting(form) {
 window.onload = async function() {
     if( !window.ethereum ) {
         setError("No provider found, please install metamask.");
-    } else {
-        document.getElementById('greetingSetter').classList.remove('hidden');
-        
+    } 
+    else {
         provider = new ethers.providers.Web3Provider(window.ethereum);
         signer = provider.getSigner()
-
         chainId = (await provider.detectNetwork()).chainId;
-        greetingContract = new ethers.Contract(contractAddr[chainId], greetingAbi, provider);
 
-        document.getElementById('newGreeting').onkeydown = function(e){
-            if(e.keyCode == 13){
-                changeGreeting();
-            }
-        };
+        if( contractAddr.hasOwnProperty(chainId) ) {
+            document.getElementById('greetingSetter').classList.remove('hidden');
+            greetingContract = new ethers.Contract(contractAddr[chainId], greetingAbi, provider);
 
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        await fetchGreeting();
-        greetingContract.on('UpdatedGreeting', updateGreeting);
+            document.getElementById('newGreeting').onkeydown = function(e){
+                if(e.keyCode == 13){
+                    changeGreeting();
+                }
+            };
+
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            await fetchGreeting();
+            greetingContract.on('UpdatedGreeting', updateGreeting);
+        } else {
+            setError("The connected network is not supported. Please change to the Ropsten network and reload the page.");
+        }
     }
 }
 
